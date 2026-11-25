@@ -2,7 +2,9 @@
   "date": "2026-11-25",
   "python_tests_passed": 139,
   "original_engine_files_preserved": 13,
-  "browser_visual_verification": "not_completed_runtime_failed_to_start",
+  "browser_visual_verification": "passed Chrome headless isolated session; screenshots inspected",
   "pages_enabled": false,
-  "scientific_validation": false
+  "scientific_validation": false,
+  "browser_equivalence_cases": 54,
+  "publication_status": "prepared_for_authorized_pages_preview"
 }

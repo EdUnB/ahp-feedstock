@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-25T20:46:33.561Z",
+  "browser": "Chrome headless isolated profile",
+  "native_browser_cases": 54,
+  "baseline": {
+    "priorities": {
+      "resíduo": 0.17723886059712773,
+      "subproduto": 0.4527525726182123,
+      "coproduto": 0.3700085667846599
+    },
+    "ranking": [
+      "subproduto",
+      "coproduto",
+      "resíduo"
+    ],
+    "winner": "subproduto",
+    "margin": 0.0827440058335524,
+    "tie": false
+  },
+  "sensitivity_and_extremes": true,
+  "restore": true,
+  "exports": [
+    "JSON",
+    "CSV"
+  ],
+  "invalid_weights_rejected": true,
+  "mobile_width": 390,
+  "no_calculation_api_network_requests": true,
+  "engine_unchanged": true,
+  "scientific_validation": false,
+  "url_scope": "local repository-subpath preview"
+}

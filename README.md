@@ -4,7 +4,7 @@ Research software for exploratory feedstock classification using the Analytic Hi
 
 ## Status
 
-Repository organization and browser execution prototype. Scientific model M2 is experimental; weights are provisional. No validated final classification, legal designation or automatic LCA boundary is produced. Software registration and public release have not been completed.
+Browser edition tested in Chrome, including 54 state combinations against the original Python engine, sensitivity controls, JSON/CSV exports and mobile width. Scientific model M2 is experimental; weights are provisional. No validated final classification, legal designation or automatic LCA boundary is produced. This is an experimental preview, not a registered or externally validated scientific release. Software registration remains pending.
 
 ## Local use
 
@@ -41,4 +41,8 @@ Open http://127.0.0.1:8011/. The browser edition loads Python and NumPy through 
 - `provenance/`: original engine hashes; no local absolute paths.
 - `dist/`: generated static site, ignored by Git.
 
-See [project context](docs/PROJECT_CONTEXT.md), [release workflow](docs/RELEASE.md) and [rights status](RIGHTS.md). Browser compatibility and scientific validation are different checks. Do not cite an untested preview as the article release.
+See [project context](docs/PROJECT_CONTEXT.md), [release workflow](docs/RELEASE.md) and [rights status](RIGHTS.md). Browser compatibility and scientific validation are different checks. See docs/browser-verification.json for the recorded browser checks. Do not cite an untested preview as the article release.
+
+## Browser audit
+
+Generate the native reference fixtures with `python scripts/generate_browser_fixtures.py`, build the site, start `python scripts/serve_preview.py`, then run `node scripts/browser_audit.cjs`. The audit uses a separate Chrome profile. Set BROWSER_EXE when Chrome is installed elsewhere. Test reports and screenshots remain in ignored local-private/.

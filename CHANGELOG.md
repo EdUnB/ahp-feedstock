@@ -8,3 +8,11 @@
 - Added CI and manually gated Pages deployment.
 - Separated software source from manuscripts, LCA and academic website.
 - No scientific validation or software registration claimed.
+
+## Browser preview verification — 2026-11-25
+
+- Passed Chrome execution against native Python for all 54 reference-state combinations, with absolute priority differences below 1e-12.
+- Passed baseline, weight-extreme, restore, JSON/CSV, invalid-weight and mobile-width checks.
+- Added reproducible Chrome audit and native fixture generator.
+- Preserved all original engine files and reference configuration; no scientific validation or registration claimed.
+- Prepared manual GitHub Pages publication authorized by the coordinator.

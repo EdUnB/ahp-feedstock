@@ -1,0 +1,50 @@
+const {spawn}=require('node:child_process');
+const {once}=require('node:events');
+const fs=require('node:fs'),path=require('node:path'),os=require('node:os'),assert=require('node:assert/strict');
+const url=process.argv[2]||'http://127.0.0.1:8012/ahp-feedstock/';
+const output=path.resolve('local-private/browser-audit');fs.mkdirSync(output,{recursive:true});
+const profile=fs.mkdtempSync(path.join(os.tmpdir(),'ahp-chrome-'));
+const browser=spawn(process.env.BROWSER_EXE||'C:/Program Files/Google/Chrome/Application/chrome.exe',['--headless','--disable-gpu','--no-first-run','--no-default-browser-check','--remote-debugging-port=0','--user-data-dir='+profile,'about:blank'],{windowsHide:true,stdio:['ignore','ignore','pipe']});
+let socket;const failures=[],network=[];let sequence=0;const pending=new Map();
+const timer=setTimeout(()=>{console.error('Browser audit timed out');browser.kill();process.exit(1)},210000);
+async function main(){
+ const endpoint=await new Promise((resolve,reject)=>{let err='';browser.stderr.on('data',chunk=>{err+=chunk;const m=err.match(/DevTools listening on (ws:\/\/[^\s]+)/);if(m)resolve(new URL(m[1]))});browser.once('error',reject);browser.once('exit',c=>reject(new Error('Chrome exit '+c+' '+err.slice(-500))))});
+ const targets=await(await fetch('http://'+endpoint.host+'/json/list')).json();socket=new WebSocket(targets.find(t=>t.type==='page').webSocketDebuggerUrl);await once(socket,'open');
+ socket.addEventListener('message',({data})=>{const m=JSON.parse(data);if(m.method==='Runtime.exceptionThrown')failures.push(m.params.exceptionDetails.exception?.description||m.params.exceptionDetails.text);if(m.method==='Network.requestWillBeSent')network.push(m.params.request.url);if(m.id){const task=pending.get(m.id);if(task){pending.delete(m.id);m.error?task.reject(Error(m.error.message)):task.resolve(m.result)}}});
+ const cdp=(method,params={})=>new Promise((resolve,reject)=>{pending.set(++sequence,{resolve,reject});socket.send(JSON.stringify({id:sequence,method,params}))});
+ async function evaluate(expression){const r=await cdp('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(r.exceptionDetails)throw Error(r.exceptionDetails.exception?.description||r.exceptionDetails.text);return r.result.value}
+ async function waitFor(expression,label,ms=120000){const end=Date.now()+ms;while(Date.now()<end){if(await evaluate(expression))return;await new Promise(r=>setTimeout(r,400))}throw Error('Timeout '+label+': '+await evaluate('document.body.innerText.slice(0,1600)'))}
+ await cdp('Runtime.enable');await cdp('Network.enable');await cdp('Page.enable');await cdp('Page.navigate',{url});
+ await waitFor("document.getElementById('apiStatus')?.classList.contains('online')",'Python initialization');
+ console.log('PYTHON_BROWSER_READY');
+ await evaluate("document.getElementById('loadDemo').click();document.getElementById('consent').click();document.getElementById('calculateBtn').click()");
+ await waitFor("typeof analysis!=='undefined' && analysis!==null",'baseline');
+ const baseline=await evaluate('analysis.computational_candidate');
+ assert.equal(baseline.winner,'subproduto');assert.ok(Math.abs(baseline.priorities.subproduto-.4527525726182124)<1e-12);
+ console.log('BASELINE_OK',JSON.stringify(baseline));
+ const fixtures=JSON.parse(fs.readFileSync(path.join(output,'native-fixtures.json'),'utf8'));
+ const outcomes=await evaluate(`(async()=>{const fixtures=${JSON.stringify(fixtures)};const out=[];for(const f of fixtures){const response=await fetch('/api/evaluate',{method:'POST',body:JSON.stringify({case:f.case,allow_draft:true})});out.push({status:response.status,body:await response.json()})}return out})()`);
+ assert.equal(outcomes.length,54);
+ outcomes.forEach((item,i)=>{assert.equal(item.status,200);const actual=item.body.computational_candidate,expected=fixtures[i].candidate;assert.equal(actual.winner,expected.winner);assert.equal(actual.tie,expected.tie);for(const key of Object.keys(expected.priorities))assert.ok(Math.abs(actual.priorities[key]-expected.priorities[key])<1e-12,`case ${i} ${key}`);assert.equal(item.body.final_classification,null)});
+ console.log('54_BROWSER_NATIVE_EQUIVALENCE_OK');
+ const ids=await evaluate("[...document.querySelectorAll('input[type=checkbox]')].map(e=>({id:e.id,label:e.parentElement.innerText.slice(0,80)}))");console.log('CHECKBOXES',JSON.stringify(ids));
+ await evaluate("document.getElementById('enableSensitivity').click()");
+ await waitFor("typeof sensitivityData!=='undefined' && sensitivityData!==null",'sensitivity');
+ const baseWeights=await evaluate('sensitivityWeights');assert.ok(Math.abs(baseWeights.reduce((a,b)=>a+b,0)-1)<1e-12);
+ await evaluate("document.getElementById('weight0').value='100';document.getElementById('weight0').dispatchEvent(new Event('input',{bubbles:true}))");
+ await waitFor("sensitivityData?.exploratory_weights?.[0]===1",'slider extreme',45000);
+ const adjusted=await evaluate('({weights:sensitivityWeights,output:sensitivityData.exploratory.computational_candidate})');assert.equal(adjusted.weights[0],1);assert.ok(Math.abs(adjusted.weights.reduce((a,b)=>a+b,0)-1)<1e-12);
+ await evaluate("document.getElementById('restoreWeights').click()");
+ await waitFor("Math.abs(sensitivityWeights[0]-.6)<1e-12 && sensitivityData!==null && Math.abs(sensitivityData.exploratory_weights[0]-.6)<1e-12",'restore',45000);
+ await evaluate("window.qaBlobs=[];const orig=URL.createObjectURL.bind(URL);URL.createObjectURL=b=>{window.qaBlobs.push(b);return orig(b)};document.addEventListener('click',e=>{if(e.target instanceof HTMLAnchorElement && e.target.download)e.preventDefault()},true);document.getElementById('sensitivityJson').click();document.getElementById('sensitivityCsv').click()");
+ const exports=await evaluate('(async()=>Promise.all(window.qaBlobs.map(async b=>({type:b.type,text:await b.text()}))))()');assert.equal(exports.length,2);const exported=JSON.parse(exports[0].text);assert.ok(exported.engine_source_sha256);assert.equal(exported.exploratory.final_classification,null);assert.ok(exports[1].text.split(String.fromCharCode(10)).length>=537);
+ const invalid=await evaluate("(async()=>{const r=await fetch('/api/sensitivity',{method:'POST',body:JSON.stringify({case:savedCase,allow_draft:true,weights:[1,1,1]})});return r.status})()");assert.equal(invalid,422);
+ const desktop=await cdp('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});fs.writeFileSync(path.join(output,'desktop.png'),Buffer.from(desktop.data,'base64'));
+ await cdp('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});
+ const overflow=await evaluate('document.documentElement.scrollWidth>innerWidth+1');assert.equal(overflow,false);
+ const mobile=await cdp('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});fs.writeFileSync(path.join(output,'mobile.png'),Buffer.from(mobile.data,'base64'));
+ assert.equal(network.some(x=>new URL(x).pathname.startsWith('/api/')),false,'Calculation unexpectedly sent to a server');
+ assert.deepEqual(failures,[]);
+ const report={url,date:new Date().toISOString(),browser:'Chrome headless isolated profile',native_browser_cases:54,baseline,sensitivity_and_extremes:true,restore:true,exports:['JSON','CSV'],invalid_weights_rejected:true,mobile_width:390,no_calculation_api_network_requests:true,engine_unchanged:true,scientific_validation:false};fs.writeFileSync(path.join(output,'report.json'),JSON.stringify(report,null,2));console.log('BROWSER_AUDIT_PASSED',JSON.stringify(report));
+}
+main().catch(e=>{console.error(e.stack);process.exitCode=1}).finally(()=>{clearTimeout(timer);socket?.close();browser.kill()});
