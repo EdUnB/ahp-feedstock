@@ -1,5 +1,7 @@
 # AHP Feedstock
 
+**Open the experimental browser preview:** https://edunb.github.io/ahp-feedstock/
+
 Research software for exploratory feedstock classification using the Analytic Hierarchy Process. Maintained independently of the academic website and the LCA calculator.
 
 ## Status
@@ -41,7 +43,7 @@ Open http://127.0.0.1:8011/. The browser edition loads Python and NumPy through 
 - `provenance/`: original engine hashes; no local absolute paths.
 - `dist/`: generated static site, ignored by Git.
 
-See [project context](docs/PROJECT_CONTEXT.md), [release workflow](docs/RELEASE.md) and [rights status](RIGHTS.md). Browser compatibility and scientific validation are different checks. See docs/browser-verification.json for the recorded browser checks. Do not cite an untested preview as the article release.
+See [project context](docs/PROJECT_CONTEXT.md), [release workflow](docs/RELEASE.md) and [rights status](RIGHTS.md). The public GitHub Pages preview was verified in Chrome on 2026-11-25. Browser compatibility and scientific validation are different checks. See docs/browser-verification.json for the recorded browser checks. Do not cite an untested preview as the article release.
 
 ## Browser audit
 

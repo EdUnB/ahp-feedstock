@@ -1,5 +1,6 @@
 {
-  "date": "2026-11-25T20:46:33.561Z",
+  "url": "https://edunb.github.io/ahp-feedstock/",
+  "date": "2026-11-25T20:50:32.335Z",
   "browser": "Chrome headless isolated profile",
   "native_browser_cases": 54,
   "baseline": {
@@ -28,5 +29,6 @@
   "no_calculation_api_network_requests": true,
   "engine_unchanged": true,
   "scientific_validation": false,
-  "url_scope": "local repository-subpath preview"
+  "deployment_workflow_run": 45698607022,
+  "deployed_commit": "a5752aab1b45d39ce3eef9a25a9ff54094255147"
 }

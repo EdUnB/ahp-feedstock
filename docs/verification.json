@@ -3,8 +3,10 @@
   "python_tests_passed": 139,
   "original_engine_files_preserved": 13,
   "browser_visual_verification": "passed Chrome headless isolated session; screenshots inspected",
-  "pages_enabled": false,
+  "pages_enabled": true,
   "scientific_validation": false,
   "browser_equivalence_cases": 54,
-  "publication_status": "prepared_for_authorized_pages_preview"
+  "publication_status": "published_preview_verified_in_chrome",
+  "public_url": "https://edunb.github.io/ahp-feedstock/",
+  "repository_visibility": "public"
 }

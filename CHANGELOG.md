@@ -16,3 +16,5 @@
 - Added reproducible Chrome audit and native fixture generator.
 - Preserved all original engine files and reference configuration; no scientific validation or registration claimed.
 - Prepared manual GitHub Pages publication authorized by the coordinator.
+
+- GitHub Pages deployment completed successfully and the full 54-case Chrome audit passed at https://edunb.github.io/ahp-feedstock/. Repository visibility is public because the current plan did not support Pages for this private repository. Academic website and LCA remain separate.
