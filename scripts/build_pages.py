@@ -15,6 +15,9 @@ for name in ['logo-lea.png','logo-pcmec.png']:
  target=out/'assets/institutional'/name
  target.parent.mkdir(parents=True,exist_ok=True)
  shutil.copy2(root/'app/static/institutional'/name,target)
+target=out/'assets/branding/feedclass-logo.png'
+target.parent.mkdir(parents=True,exist_ok=True)
+shutil.copy2(root/'app/static/branding/feedclass-logo.png',target)
 files=[]
 for folder in ['engine/ahp_feedstock','app']:
  for p in sorted((root/folder).glob('*.py')):

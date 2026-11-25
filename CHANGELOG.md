@@ -24,3 +24,9 @@
 - Replaced the temporary lettermark with the original LEA and PCMEC logos, copied without image modifications.
 - Added accessible alternative text, project-relative static assets and responsive header layout.
 - Scientific engine and reference configuration remain unchanged.
+
+## FeedClass identity — 2026-11-25
+
+- Adopted the approved FeedClass name and transparent logo in the page title, header and footer.
+- Retained the LEA and PCMEC institutional marks with responsive placement.
+- Preserved scientific engine files, configuration, repository address and public URL.

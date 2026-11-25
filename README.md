@@ -1,4 +1,4 @@
-# AHP Feedstock
+# FeedClass
 
 **Open the experimental browser preview:** https://edunb.github.io/ahp-feedstock/
 
@@ -48,3 +48,7 @@ See [project context](docs/PROJECT_CONTEXT.md), [release workflow](docs/RELEASE.
 ## Browser audit
 
 Generate the native reference fixtures with `python scripts/generate_browser_fixtures.py`, build the site, start `python scripts/serve_preview.py`, then run `node scripts/browser_audit.cjs`. The audit uses a separate Chrome profile. Set BROWSER_EXE when Chrome is installed elsewhere. Test reports and screenshots remain in ignored local-private/.
+
+## Identity
+
+FeedClass is the approved public-facing name. The original AHP Python engine, model identifiers and reference configuration remain unchanged. The header displays the approved FeedClass logo alongside the original LEA and PCMEC marks.

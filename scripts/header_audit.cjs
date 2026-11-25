@@ -15,12 +15,12 @@ async function main(){
  async function evaluate(expression){const r=await cdp('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(r.exceptionDetails)throw Error(r.exceptionDetails.exception?.description||r.exceptionDetails.text);return r.result.value}
  async function waitFor(expression,label,ms=120000){const end=Date.now()+ms;while(Date.now()<end){if(await evaluate(expression))return;await new Promise(r=>setTimeout(r,400))}throw Error('Timeout '+label+': '+await evaluate('document.body.innerText.slice(0,1600)'))}
  await cdp('Runtime.enable');await cdp('Network.enable');await cdp('Page.enable');await cdp('Page.navigate',{url});
- await waitFor("[...document.querySelectorAll('.institutional-logos img')].length===2 && [...document.querySelectorAll('.institutional-logos img')].every(i=>i.complete && i.naturalWidth>0)",'institutional logos');
+ await waitFor("[...document.querySelectorAll('.institutional-logos img')].length===2 && [...document.querySelectorAll('.institutional-logos img')].every(i=>i.complete && i.naturalWidth>0) && document.querySelector('.feedclass-logo')?.complete && document.querySelector('.feedclass-logo')?.naturalWidth>0",'institutional logos');
  for(const width of [1440,800,390,320]){
   await cdp('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:width<620});
   await evaluate('window.scrollTo(0,0)');
   const state=await evaluate("({overflow:document.documentElement.scrollWidth>innerWidth+1,logos:[...document.querySelectorAll('.institutional-logos img')].map(i=>({src:i.getAttribute('src'),width:i.getBoundingClientRect().width,height:i.getBoundingClientRect().height,right:i.getBoundingClientRect().right,alt:i.alt})),oldMark:!!document.querySelector('.brand-mark')})");
-  assert.equal(state.overflow,false);assert.equal(state.oldMark,false);assert.equal(state.logos.length,2);assert.ok(state.logos.every(i=>i.width>0&&i.height>0&&i.right<=width));
+  assert.equal(await evaluate("document.title.startsWith('FeedClass') && document.querySelector('.feedclass-logo').alt==='FeedClass'"),true);assert.equal(state.overflow,false);assert.equal(state.oldMark,false);assert.equal(state.logos.length,2);assert.ok(state.logos.every(i=>i.width>0&&i.height>0&&i.right<=width));
   const shot=await cdp('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});fs.writeFileSync(path.join(output,'header-'+width+'.png'),Buffer.from(shot.data,'base64'));console.log('HEADER_OK',width,JSON.stringify(state));
  }
  assert.deepEqual(failures,[]);

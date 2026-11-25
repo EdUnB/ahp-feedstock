@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="AHP Feedstock — interface de pesquisa experimental M2 para classificação multicritério de matérias-primas em bioenergia.">
-  <title>AHP Feedstock · Classificação multicritério | LEA</title>
-  <link rel="stylesheet" href="styles.css?v=2.0.1">
+  <meta name="description" content="FeedClass — interface de pesquisa experimental M2 para classificação multicritério de matérias-primas em bioenergia.">
+  <title>FeedClass · Classificação multicritério | LEA</title>
+  <link rel="stylesheet" href="styles.css?v=2.0.2">
   <script src="app.js?v=2.0.0" defer></script>
   <script src="sensitivity.js?v=2.0.0" defer></script>
 </head>
@@ -17,7 +17,8 @@
   <script>if(location.protocol==='file:')document.getElementById('localFileNotice').hidden=false;</script>
   <header class="topbar">
     <div class="topbar-inner">
-      <a href="#inicio" class="brand"><span class="institutional-logos"><img class="logo-lea" src="assets/institutional/logo-lea.png" alt="LEA — Laboratório de Energia e Ambiente" width="82" height="51"><img class="logo-pcmec" src="assets/institutional/logo-pcmec.png" alt="PCMEC — Programa de Pós-Graduação em Ciências Mecânicas" width="96" height="51"></span><span class="brand-copy"><strong>AHP Feedstock</strong><small>LEA · Ferramenta de pesquisa</small></span></a>
+      <a href="#inicio" class="brand" aria-label="FeedClass — início"><span class="brand-copy"><img class="feedclass-logo" src="assets/branding/feedclass-logo.png" alt="FeedClass" width="228" height="76"><small>AHP · Classificação multicritério</small></span></a>
+      <span class="institutional-logos"><img class="logo-lea" src="assets/institutional/logo-lea.png" alt="LEA — Laboratório de Energia e Ambiente" width="82" height="51"><img class="logo-pcmec" src="assets/institutional/logo-pcmec.png" alt="PCMEC — Programa de Pós-Graduação em Ciências Mecânicas" width="96" height="51"></span>
       <div class="top-actions"><span id="apiStatus" class="server-status">Verificando motor…</span><span class="version">M2 / C3 · v2.0 Sensibilidade</span></div>
     </div>
   </header>
@@ -145,7 +146,7 @@
         <div class="export-actions"><button type="button" id="sensitivityJson" class="btn btn-light">Sensibilidade JSON</button><button type="button" id="sensitivityCsv" class="btn btn-light">Sensibilidade CSV</button><button type="button" class="btn btn-light" onclick="window.print()">Imprimir / PDF</button></div>
         <p>As exportações de sensibilidade identificam baseline, cenário ajustado e malhas. As exportações da etapa 04 continuam contendo somente o baseline. Nenhum cenário atribui classificação final ou fronteira de ACV.</p>
       </section>
-      <footer class="footer"><strong>Laboratório de Energia e Ambiente · UnB</strong><span>AHP Feedstock · M2 experimental · Pesquisa e desenvolvimento</span><span>Interface separada da ferramenta de ACV.</span></footer>
+      <footer class="footer"><strong>Laboratório de Energia e Ambiente · UnB</strong><span>FeedClass · M2 experimental · Pesquisa e desenvolvimento</span><span>Interface separada da ferramenta de ACV.</span></footer>
     </main>
   </div>
 </body>
