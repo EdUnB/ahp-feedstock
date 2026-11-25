@@ -1,0 +1,5 @@
+# Python 3.10+ | aplicação local / interface AHP
+numpy>=1.23,<3
+fastapi>=0.110,<1
+uvicorn>=0.27,<1
+pydantic>=2,<3

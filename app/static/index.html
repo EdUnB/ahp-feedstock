@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="AHP Feedstock — interface de pesquisa experimental M2 para classificação multicritério de matérias-primas em bioenergia.">
+  <title>AHP Feedstock · Classificação multicritério | LEA</title>
+  <link rel="stylesheet" href="styles.css?v=2.0.0">
+  <script src="app.js?v=2.0.0" defer></script>
+  <script src="sensitivity.js?v=2.0.0" defer></script>
+</head>
+<body>
+  <div id="localFileNotice" hidden role="alert" style="padding:18px 24px;background:#fff2d5;color:#503a15;border-bottom:2px solid #c98f51;font:16px/1.6 'Segoe UI',Arial,sans-serif">
+    <strong>Você abriu a prévia visual pelo arquivo HTML.</strong>
+    Para calcular e usar os sliders, extraia o ZIP e execute <strong>INICIAR_WINDOWS.bat</strong> na pasta principal da aplicação. O iniciador abrirá o endereço correto no navegador. Mantenha a janela do servidor aberta.
+  </div>
+  <script>if(location.protocol==='file:')document.getElementById('localFileNotice').hidden=false;</script>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="#inicio" class="brand"><span class="brand-mark" aria-hidden="true">L<span>·</span>A</span><span><strong>AHP Feedstock</strong><small>LEA · Ferramenta de pesquisa</small></span></a>
+      <div class="top-actions"><span id="apiStatus" class="server-status">Verificando motor…</span><span class="version">M2 / C3 · v2.0 Sensibilidade</span></div>
+    </div>
+  </header>
+
+  <div class="workspace" id="inicio">
+    <aside class="sidebar" aria-label="Navegação da ferramenta">
+      <div class="side-group">
+        <div class="eyebrow">WORKFLOW</div>
+        <a class="step active" href="#sec-case"><span class="step-num">01</span><span>Caracterização<small>Material e origem</small></span></a>
+        <a class="step" href="#sec-criteria"><span class="step-num">02</span><span>Avaliação AHP<small>C1 · C2 · C3</small></span></a>
+        <a class="step" href="#sec-context"><span class="step-num">03</span><span>Condições contextuais<small>Fora da ponderação</small></span></a>
+        <a class="step" href="#sec-results"><span class="step-num">04</span><span>Resultados<small>Prioridades e auditoria</small></span></a>
+      </div>
+      <div class="side-separator"></div>
+      <div class="side-group">
+        <div class="eyebrow">MODELO ATIVO</div>
+        <div class="weight-title">Pesos provisórios</div>
+        <div class="small-weight"><span>C1 Descarte</span><strong>60%</strong></div><div class="weight-track"><i style="width:60%"></i></div>
+        <div class="small-weight"><span>C2 Intencionalidade</span><strong>20%</strong></div><div class="weight-track"><i style="width:20%"></i></div>
+        <div class="small-weight"><span>C3 Economia</span><strong>20%</strong></div><div class="weight-track"><i style="width:20%"></i></div>
+        <p class="side-note">Baseline provisório preservado. Explore outros pesos na etapa 05; os pesos do artigo não são necessariamente definitivos.</p>
+      </div>
+      <div class="sidebar-bottom"><span class="quiet-dot"></span> Aplicação local · Sem transferência de dados a serviços externos.</div>
+    </aside>
+
+    <main class="main-content">
+      <div class="hero">
+        <div class="eyebrow hero-overline">DECISION-SUPPORT TOOL · MULTICRITERIA ASSESSMENT</div>
+        <h1>Classificação de matérias-primas <span>para bioenergia</span></h1>
+        <p>Uma interface para registrar evidências, aplicar os estados de referência e calcular prioridades no <strong>Analytic Hierarchy Process (AHP)</strong> de medição absoluta.</p>
+        <div class="hero-tags"><span><i class="tag-dot"></i> Motor Python original</span><span><i class="tag-dot"></i> Critérios C1, C2 e C3</span><span><i class="tag-dot"></i> ACV independente</span></div>
+      </div>
+
+      <div class="alert warning" role="note"><span class="alert-symbol" aria-hidden="true">!</span><div><strong>Versão experimental — resultados não validados cientificamente</strong><p>Os valores representam prioridades multicritério sob pesos e estados provisórios; <strong>não são probabilidades</strong>. O resultado não determina status legal, fronteira da ACV nem alocação de emissões. A classificação final permanece não atribuída.</p></div></div>
+
+      <div id="systemError" class="alert error" hidden role="alert"></div>
+
+      <div class="quickbar">
+        <div><strong>Novo estudo</strong><small>Preencha o caso ou inicie um exemplo sintético.</small></div>
+        <div class="quick-actions"><button type="button" class="btn btn-light" id="loadDemo"><span aria-hidden="true">▦</span> Exemplo sintético</button><button type="button" class="btn btn-light" id="resetBtn">Limpar</button></div>
+      </div>
+
+      <form id="analysisForm" novalidate>
+        <section class="panel" id="sec-case">
+          <div class="panel-header"><div class="panel-index">01</div><div><div class="eyebrow">CASE DEFINITION</div><h2>Caracterização do material</h2><p>Defina a corrente material e o ponto físico em que ela será classificada.</p></div></div>
+          <div class="fields two">
+            <label class="field"><span>Matéria-prima / fluxo <em>*</em></span><input id="material" name="material" maxlength="300" required placeholder="Ex.: gordura bruta na saída do frigorífico"><small>Nome do fluxo, não o combustível final.</small></label>
+            <label class="field"><span>Região e contexto</span><input id="region" name="region" maxlength="300" placeholder="Ex.: Brasil, região e período de análise"><small>Condições de mercado dependem de lugar e tempo.</small></label>
+            <label class="field full"><span>Ponto exato da classificação <em>*</em></span><input id="point" name="point" maxlength="900" required placeholder="Ex.: saída do frigorífico, antes da renderização"><small>Materiais brutos e materiais processados devem ser identificados separadamente.</small></label>
+          </div>
+        </section>
+
+        <section class="panel" id="sec-criteria">
+          <div class="panel-header"><div class="panel-index">02</div><div><div class="eyebrow">ABSOLUTE-MEASUREMENT AHP</div><h2>Estados de referência</h2><p>Para cada critério, escolha o estado que melhor corresponde às evidências disponíveis e documente o motivo.</p></div></div>
+          <div class="criteria-head"><span class="criteria-label">C1</span><div><h3>Condição de descarte</h3><p>O material é efetivamente descartado, ou é retido no sistema para utilização produtiva?</p></div><span class="weight-chip">60% provisório</span></div>
+          <div class="criterion-body">
+            <label class="field"><span>Estado de C1 <em>*</em></span><select required id="c1"><option value="">Selecione a condição</option><option value="descarte">Descarte</option><option value="nao_descarte">Não descarte</option></select></label>
+            <label class="field"><span>Fundamentação / fonte de C1 <em>*</em></span><textarea required id="evC1" maxlength="3500" rows="2" placeholder="Ex.: registros de destinação, contratos, documentos operacionais; mencionar fonte e data."></textarea></label>
+          </div>
+          <div class="criteria-head separate"><span class="criteria-label">C2</span><div><h3>Intencionalidade produtiva</h3><p>Distingua produção deliberada, geração incidental comprovada e ausência de evidências suficientes.</p></div><span class="weight-chip">20% provisório</span></div>
+          <div class="criterion-body">
+            <label class="field"><span>Estado de C2 <em>*</em></span><select required id="c2"><option value="">Selecione a condição</option><option value="intencionalidade_demonstrada">Intencionalidade produtiva demonstrada</option><option value="incidental_comprovada">Geração incidental comprovada</option><option value="evidencia_insuficiente">Evidência insuficiente</option></select><small>Comercialização não comprova, por si só, intenção de produzir o material.</small></label>
+            <label class="field"><span>Fundamentação / fonte de C2 <em>*</em></span><textarea required id="evC2" maxlength="3500" rows="2" placeholder="Especifique como se comprova a presença ou ausência de intencionalidade produtiva."></textarea></label>
+          </div>
+          <div class="criteria-head separate"><span class="criteria-label">C3</span><div><h3>Relevância econômica</h3><p>Avalia-se por dois subcritérios distintos: mercado/valor (C3a) e resposta da oferta à demanda (C3b).</p></div><span class="weight-chip">20% provisório</span></div>
+          <div class="criteria-grid">
+            <div class="subcriterion"><div class="subheading"><strong>C3a · Mercado e valor</strong><span>15% global</span></div>
+              <label class="field"><span>Estado de referência <em>*</em></span><select id="c3a" required><option value="">Selecione uma condição</option><option value="C3a-R1">R1 · Valor mercantil ausente ou marginal</option><option value="C3a-R2">R2 · Mercado secundário estabelecido</option><option value="C3a-R3">R3 · Valor comercial significativo e persistente</option></select></label>
+              <label class="field"><span>Evidência de mercado <em>*</em></span><textarea required id="evC3a" maxlength="3500" rows="3" placeholder="Preços, contratos, receitas relativas, séries temporais, fontes verificáveis."></textarea></label>
+            </div>
+            <div class="subcriterion"><div class="subheading"><strong>C3b · Elasticidade / oferta</strong><span>5% global</span></div>
+              <label class="field"><span>Estado de referência <em>*</em></span><select id="c3b" required><option value="">Selecione uma condição</option><option value="C3b-R1">R1 · Oferta estruturalmente inelástica</option><option value="C3b-R2">R2 · Oferta parcialmente responsiva</option><option value="C3b-R3">R3 · Oferta materialmente responsiva à demanda</option></select></label>
+              <label class="field"><span>Evidência de resposta da oferta <em>*</em></span><textarea required id="evC3b" maxlength="3500" rows="3" placeholder="Qual relação entre demanda pelo material e volume efetivo gerado?"></textarea></label>
+            </div>
+          </div>
+          <p class="info-line">As justificativas são declarações do usuário. Os pesos de referência são provisórios e não necessariamente definitivos para o artigo. Após calcular, explore outros pesos na análise de sensibilidade.</p>
+        </section>
+
+        <section class="panel" id="sec-context">
+          <div class="panel-header"><div class="panel-index">03</div><div><div class="eyebrow">CONTEXTUAL ASSESSMENT</div><h2>Verificações complementares</h2><p>Condições tecnológicas e regulatórias são registradas para interpretação, mas <strong>não entram na soma ponderada do AHP</strong>.</p></div></div>
+          <div class="fields two">
+            <label class="field"><span>Viabilidade tecnológica</span><select id="technology"><option value="unknown">Não avaliada</option><option value="viable">Viável</option><option value="limited">Limitada</option><option value="nonviable">Inviável</option></select></label>
+            <label class="field"><span>Viabilidade logística</span><select id="logistics"><option value="unknown">Não avaliada</option><option value="viable">Viável</option><option value="limited">Limitada</option><option value="nonviable">Inviável</option></select></label>
+            <label class="field"><span>Exigência de processamento</span><select id="processing"><option value="unknown">Não caracterizada</option><option value="direct_use">Uso direto</option><option value="normal_industrial_practice">Prática industrial normal</option><option value="dedicated_conversion">Conversão dedicada</option></select></label>
+            <label class="field"><span>Situação do enquadramento regulatório</span><select id="regStatus"><option value="not_assessed">Não avaliado</option><option value="assessed">Avaliado pelo pesquisador</option><option value="conflicting">Conflito entre referenciais</option></select></label>
+            <label class="field full"><span>Referencial aplicável <em>*</em></span><input required id="basis" maxlength="1000" value="Pesquisa em ACV; sem enquadramento regulatório automático"></label>
+            <label class="field full"><span>Avaliação contextual e fonte <em>*</em></span><textarea id="contextSource" required maxlength="1500" rows="2" placeholder="Descreva a evidência contextual, suas fontes e eventuais limitações."></textarea></label>
+          </div>
+        </section>
+
+        <section class="run-panel" aria-label="Executar análise">
+          <div class="run-message"><span class="run-icon" aria-hidden="true">∑</span><div><strong>Executar análise multicritério</strong><p>O processamento usa o motor Python original, sem recalcular ou modificar a ACV.</p></div></div>
+          <label class="consent"><input id="consent" type="checkbox" required><span>Confirmo que compreendo o caráter <strong>exploratório e não validado</strong> do modelo M2 e que conferi as evidências inseridas.</span></label>
+          <div class="run-actions"><button type="submit" class="btn btn-primary" id="calculateBtn">Executar AHP <span aria-hidden="true">→</span></button><span id="runFeedback" role="status" aria-live="polite"></span></div>
+        </section>
+      </form>
+
+      <section class="panel results-panel" id="sec-results" aria-live="polite">
+        <div class="panel-header"><div class="panel-index">04</div><div><div class="eyebrow">ANALYTICAL OUTPUT</div><h2>Resultado da classificação</h2><p>Prioridades relativas, rastreabilidade e consistência dos julgamentos.</p></div></div>
+        <div id="emptyResult" class="empty-result"><div class="empty-illustration" aria-hidden="true">▤</div><strong>Nenhuma simulação executada</strong><p>Preencha as etapas anteriores e clique em “Executar AHP” para visualizar as prioridades e os diagnósticos.</p></div>
+        <div id="resultsContent" hidden>
+          <div class="result-top"><div><div class="eyebrow">CATEGORIA CANDIDATA · NÃO VALIDADA</div><div class="result-winner" id="winner">—</div><p class="result-sub" id="winnerNote"></p></div><div class="result-status">Final: não atribuído</div></div>
+          <div class="results-grid"><div class="result-block"><h3>Prioridades por categoria</h3><p class="help-text">Percentuais de prioridade AHP, não probabilidades.</p><div id="priorities"></div><div class="margin-info" id="margin"></div></div>
+          <div class="result-block"><h3>Consistência das matrizes</h3><p class="help-text">CR ≤ 0,10 é um diagnóstico matemático, não validação empírica.</p><div id="consistency"></div></div></div>
+          <div class="result-extras"><div><h3>Pesos efetivamente aplicados</h3><div id="appliedWeights" class="weight-bubbles"></div></div><div><h3>Alertas de interpretação</h3><ul id="flags" class="flags-list"></ul></div></div>
+          <div class="result-footer"><div class="result-disclaimer">O modelo não atribui fronteiras de ACV automaticamente e não determina resíduos para fins legais. A decisão final requer avaliação especializada.</div><div class="export-actions"><button type="button" id="jsonExport" class="btn btn-light">Exportar JSON</button><button type="button" id="csvExport" class="btn btn-light">Exportar CSV</button><button type="button" id="printBtn" class="btn btn-light">Imprimir / PDF</button></div></div>
+        </div>
+      </section>
+      <section class="panel" id="sensitivityPanel" hidden>
+        <div class="panel-header"><div class="panel-index">05</div><div><div class="eyebrow">EXPLORAÇÃO DOS PESOS</div><h2>Análise de sensibilidade</h2><p>Baseline preservado · resultados exploratórios separados</p></div></div>
+        <p>O baseline vem da configuração sintética original (60%, 20%, 20%). Estes pesos são provisórios, não necessariamente definitivos para o artigo. Estabilidade matemática não demonstra validade científica.</p>
+        <label class="consent"><input type="checkbox" id="enableSensitivity"> Ativar análise exploratória dos pesos</label>
+        <fieldset id="sensitivityControls" disabled>
+          <legend>Pesos principais · soma 100%</legend>
+          <label class="sensitivity-slider" for="weight0">C1 · Condição de descarte <output id="weightValue0" for="weight0"></output><input id="weight0" type="range" min="0" max="100" step="0.1"></label>
+          <label class="sensitivity-slider" for="weight1">C2 · Intencionalidade produtiva <output id="weightValue1" for="weight1"></output><input id="weight1" type="range" min="0" max="100" step="0.1"></label>
+          <label class="sensitivity-slider" for="weight2">C3 · Relevância econômica <output id="weightValue2" for="weight2"></output><input id="weight2" type="range" min="0" max="100" step="0.1"></label>
+          <p id="weightSum"></p><p>Ao mover um controle, os outros dois dividem o peso restante na proporção atual. Se ambos forem zero, a divisão é igual. C3a/C3b permanecem na proporção original.</p>
+          <button type="button" class="btn btn-light" id="restoreWeights">Restaurar baseline</button>
+        </fieldset>
+        <p id="sensitivityFeedback" role="status" aria-live="polite"></p>
+        <div id="sensitivityOutput"></div>
+        <div id="stabilityCharts"></div>
+        <p>Consistência AHP e estabilidade são diagnósticos distintos. Os sliders usam pesos diretos; não refazem julgamentos pareados nem estabelecem um novo CR da raiz.</p>
+        <div class="export-actions"><button type="button" id="sensitivityJson" class="btn btn-light">Sensibilidade JSON</button><button type="button" id="sensitivityCsv" class="btn btn-light">Sensibilidade CSV</button><button type="button" class="btn btn-light" onclick="window.print()">Imprimir / PDF</button></div>
+        <p>As exportações de sensibilidade identificam baseline, cenário ajustado e malhas. As exportações da etapa 04 continuam contendo somente o baseline. Nenhum cenário atribui classificação final ou fronteira de ACV.</p>
+      </section>
+      <footer class="footer"><strong>Laboratório de Energia e Ambiente · UnB</strong><span>AHP Feedstock · M2 experimental · Pesquisa e desenvolvimento</span><span>Interface separada da ferramenta de ACV.</span></footer>
+    </main>
+  </div>
+</body>
+</html>

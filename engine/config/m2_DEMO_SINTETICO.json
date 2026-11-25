@@ -1,0 +1,381 @@
+{
+  "version": "M2-C3-602020-EXPERIMENTAL",
+  "classes": [
+    "resíduo",
+    "subproduto",
+    "coproduto"
+  ],
+  "root": {
+    "id": "root",
+    "pairwise": [
+      [
+        1,
+        3,
+        3
+      ],
+      [
+        0.3333333333333333,
+        1,
+        1
+      ],
+      [
+        0.3333333333333333,
+        1,
+        1
+      ]
+    ],
+    "children": [
+      {
+        "id": "C1",
+        "states": {
+          "descarte": {
+            "pairwise": [
+              [
+                1,
+                5,
+                5
+              ],
+              [
+                0.2,
+                1,
+                2
+              ],
+              [
+                0.2,
+                0.5,
+                1
+              ]
+            ],
+            "justification": "Hypothesis agreed in user research discussion, not empirically validated: descarte"
+          },
+          "nao_descarte": {
+            "pairwise": [
+              [
+                1,
+                0.2,
+                0.2
+              ],
+              [
+                5,
+                1,
+                1
+              ],
+              [
+                5,
+                1,
+                1
+              ]
+            ],
+            "justification": "Hypothesis agreed in user research discussion, not empirically validated: nao_descarte"
+          }
+        },
+        "justification": "C1 evaluates the holder discard intent; commercial planning alone is not original production intention."
+      },
+      {
+        "id": "C2",
+        "states": {
+          "incidental_comprovada": {
+            "pairwise": [
+              [
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1
+              ]
+            ],
+            "justification": "Comprovação documentada de que gerar este material não era objetivo produtivo. Vetor neutro metodológico provisório."
+          },
+          "evidencia_insuficiente": {
+            "pairwise": [
+              [
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1
+              ],
+              [
+                1,
+                1,
+                1
+              ]
+            ],
+            "justification": "Evidência insuficiente NÃO implica geração incidental comprovada; vetor neutro apenas para cenário matemático provisório, SEM conclusão validada."
+          },
+          "intencionalidade_demonstrada": {
+            "pairwise": [
+              [
+                1,
+                1,
+                0.3333333333333333
+              ],
+              [
+                1,
+                1,
+                0.3333333333333333
+              ],
+              [
+                3,
+                3,
+                1
+              ]
+            ],
+            "justification": "Decisões explícitas de geração deliberada precisam ser identificadas e documentadas."
+          }
+        },
+        "justification": "C2 indica intencionalidade de gerar o material, não eficiência de recuperação nem mera comercialização."
+      },
+      {
+        "id": "C3",
+        "children": [
+          {
+            "id": "C3a",
+            "states": {
+              "C3a-R1": {
+                "pairwise": [
+                  [
+                    1.0,
+                    3.0,
+                    5.0
+                  ],
+                  [
+                    0.3333333333333333,
+                    1.0,
+                    2.0
+                  ],
+                  [
+                    0.2,
+                    0.5,
+                    1.0
+                  ]
+                ],
+                "evidence": {
+                  "source": "02_SM_20260810 (3).docx",
+                  "table": "S matrix of reference states",
+                  "source_label": "C3a-R1 No / marginal market value",
+                  "nature": "calibrated judgment; not an empirical observation"
+                }
+              },
+              "C3a-R2": {
+                "pairwise": [
+                  [
+                    1.0,
+                    0.5,
+                    2.0
+                  ],
+                  [
+                    2.0,
+                    1.0,
+                    3.0
+                  ],
+                  [
+                    0.5,
+                    0.3333333333333333,
+                    1.0
+                  ]
+                ],
+                "evidence": {
+                  "source": "02_SM_20260810 (3).docx",
+                  "table": "S matrix of reference states",
+                  "source_label": "C3a-R2 Established secondary market",
+                  "nature": "calibrated judgment; not an empirical observation"
+                }
+              },
+              "C3a-R3": {
+                "pairwise": [
+                  [
+                    1.0,
+                    0.3333333333333333,
+                    0.2
+                  ],
+                  [
+                    3.0,
+                    1.0,
+                    0.3333333333333333
+                  ],
+                  [
+                    5.0,
+                    3.0,
+                    1.0
+                  ]
+                ],
+                "evidence": {
+                  "source": "02_SM_20260810 (3).docx",
+                  "table": "S matrix of reference states",
+                  "source_label": "C3a-R3 Significant/persistent comm. value",
+                  "nature": "calibrated judgment; not an empirical observation"
+                }
+              }
+            }
+          },
+          {
+            "id": "C3b",
+            "states": {
+              "C3b-R1": {
+                "pairwise": [
+                  [
+                    1.0,
+                    0.3333333333333333,
+                    2.0
+                  ],
+                  [
+                    3.0,
+                    1.0,
+                    5.0
+                  ],
+                  [
+                    0.5,
+                    0.2,
+                    1.0
+                  ]
+                ],
+                "evidence": {
+                  "source": "02_SM_20260810 (3).docx",
+                  "table": "S matrix of reference states",
+                  "source_label": "C3b-R1 Structurally inelastic supply",
+                  "nature": "calibrated judgment; not an empirical observation"
+                }
+              },
+              "C3b-R2": {
+                "pairwise": [
+                  [
+                    1.0,
+                    0.3333333333333333,
+                    0.5
+                  ],
+                  [
+                    3.0,
+                    1.0,
+                    2.0
+                  ],
+                  [
+                    2.0,
+                    0.5,
+                    1.0
+                  ]
+                ],
+                "evidence": {
+                  "source": "02_SM_20260810 (3).docx",
+                  "table": "S matrix of reference states",
+                  "source_label": "C3b-R2 Partially responsive supply",
+                  "nature": "calibrated judgment; not an empirical observation"
+                }
+              },
+              "C3b-R3": {
+                "pairwise": [
+                  [
+                    1.0,
+                    0.3333333333333333,
+                    0.2
+                  ],
+                  [
+                    3.0,
+                    1.0,
+                    0.5
+                  ],
+                  [
+                    5.0,
+                    2.0,
+                    1.0
+                  ]
+                ],
+                "evidence": {
+                  "source": "02_SM_20260810 (3).docx",
+                  "table": "S matrix of reference states",
+                  "source_label": "C3b-R3 Materially demand-responsive supply",
+                  "nature": "calibrated judgment; not an empirical observation"
+                }
+              }
+            }
+          }
+        ],
+        "pairwise": [
+          [
+            1.0,
+            3.0
+          ],
+          [
+            0.3333333333333333,
+            1.0
+          ]
+        ],
+        "justification": "C3a versus C3b = 3 (75/25), hipótese principal provisória. Mercado como evidência econômica mais direta; elasticidade como relação indireta. Sensibilidade explícita 50/50..83,33/16,67, não universal."
+      }
+    ],
+    "justification": "Julgamento metodológico aprovado provisoriamente em 2026-10-28: C1 sobre C2=3, C1 sobre C3=3, C2 sobre C3=1. Pesos 60/20/20. NÃO equivale a validação externa e não foi ajustado a partir de resultados ambientais."
+  },
+  "calibration": {
+    "status": "PROVISORIA_APROVADA_PARA_SIMULACAO",
+    "current_matrix_source": "Nova escolha metodológica de 2026-10-28; julgamentos C1/C2=3, C1/C3=3, C2/C3=1; C3a/C3b=3.",
+    "reasoning": "C1 é evidência mais direta de descarte; C2 e C3 desempenham papéis complementares, com C3 determinando B/C nos estados neutros selecionados.",
+    "scientific_validation": "NÃO VALIDADA; demo exclusivamente exploratória.",
+    "original_c4_removed_from_ahp": true,
+    "warning": "PESOS PROVISÓRIOS (60/20/20); não existe validação científica externa."
+  },
+  "classification_domain": "AHP de categoria metodológica exploratória, sem atribuição automática de cargas de ACV",
+  "case": {
+    "material": "Fluxo hipotético X",
+    "classification_point": "Saída de uma unidade produtiva fictícia (antes de qualquer processamento)",
+    "region": "Região fictícia",
+    "states": {
+      "C1": "nao_descarte",
+      "C2": "evidencia_insuficiente",
+      "C3a": "C3a-R2",
+      "C3b": "C3b-R1"
+    },
+    "state_evidence": {
+      "C1": {
+        "status": "synthetic",
+        "claim": "Exemplo hipotético: fluxo retido para possível uso."
+      },
+      "C2": {
+        "status": "synthetic",
+        "claim": "Exemplo hipotético: não há evidência de produção intencional."
+      },
+      "C3a": {
+        "status": "synthetic",
+        "claim": "Exemplo hipotético: mercado secundário irregular."
+      },
+      "C3b": {
+        "status": "synthetic",
+        "claim": "Exemplo hipotético: geração não responde diretamente à demanda."
+      }
+    },
+    "complementary_checks": {
+      "C4": {
+        "technology": {
+          "status": "unknown",
+          "assessment": "Não avaliado no cenário fictício.",
+          "source": "Cenário sintético interno"
+        },
+        "logistics": {
+          "status": "unknown",
+          "assessment": "Não avaliado no cenário fictício.",
+          "source": "Cenário sintético interno"
+        }
+      },
+      "processing": {
+        "type": "unknown",
+        "assessment": "Não caracterizado no cenário fictício.",
+        "source": "Cenário sintético interno"
+      },
+      "regulatory_basis": {
+        "framework": "Sem enquadramento jurídico: demonstração hipotética",
+        "status": "not_assessed"
+      }
+    }
+  },
+  "purpose": "Demonstração 100% hipotética para testes da interface; não constitui validação científica."
+}

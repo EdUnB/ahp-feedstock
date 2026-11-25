@@ -1,0 +1,4 @@
+* text=auto eol=lf
+engine/** -text
+app/sensitivity.py -text
+app/stability.py -text
