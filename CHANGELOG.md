@@ -30,3 +30,5 @@
 - Adopted the approved FeedClass name and transparent logo in the page title, header and footer.
 - Retained the LEA and PCMEC institutional marks with responsive placement.
 - Preserved scientific engine files, configuration, repository address and public URL.
+
+- Added bounded artifact-availability verification before Pages deployment after repeated artifact metadata lookup failures.
