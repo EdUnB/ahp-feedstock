@@ -11,6 +11,10 @@ html=html.replace('/* Interface apenas: nunca recalcula matrizes, pesos, classes
 (out/'index.html').write_text(html,encoding='utf-8')
 js=(out/'app.js').read_text(encoding='utf-8').replace('Motor local conectado','Motor Python no navegador').replace('Inicie o aplicativo pelo script INICIAR_WINDOWS.bat ou INICIAR_MAC_LINUX.sh. Esta interface não calcula AHP apenas abrindo o HTML.','Verifique a conexão para carregar o ambiente Python e recarregue a página.')
 (out/'app.js').write_text(js,encoding='utf-8')
+for name in ['logo-lea.png','logo-pcmec.png']:
+ target=out/'assets/institutional'/name
+ target.parent.mkdir(parents=True,exist_ok=True)
+ shutil.copy2(root/'app/static/institutional'/name,target)
 files=[]
 for folder in ['engine/ahp_feedstock','app']:
  for p in sorted((root/folder).glob('*.py')):

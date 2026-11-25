@@ -18,3 +18,9 @@
 - Prepared manual GitHub Pages publication authorized by the coordinator.
 
 - GitHub Pages deployment completed successfully and the full 54-case Chrome audit passed at https://edunb.github.io/ahp-feedstock/. Repository visibility is public because the current plan did not support Pages for this private repository. Academic website and LCA remain separate.
+
+## Institutional header — 2026-11-25
+
+- Replaced the temporary lettermark with the original LEA and PCMEC logos, copied without image modifications.
+- Added accessible alternative text, project-relative static assets and responsive header layout.
+- Scientific engine and reference configuration remain unchanged.

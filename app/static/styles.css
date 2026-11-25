@@ -9,3 +9,8 @@
 #sensitivityPanel p {line-height:1.7;}
 #stabilityCharts {margin-top:25px;}
 @media print {#sensitivityPanel {break-before:page;} #sensitivityPanel svg {max-height:380px;} #sensitivityPanel fieldset,.export-actions {display:none;} }
+
+/* Institutional marks copied unchanged from the academic website assets. */
+.topbar{height:90px}.brand{gap:16px;min-width:0}.institutional-logos{display:flex;align-items:center;gap:14px;padding-right:18px;border-right:1px solid var(--border);flex:none}.institutional-logos img{display:block;object-fit:contain;height:56px;max-width:100%}.institutional-logos .logo-lea{width:82px}.institutional-logos .logo-pcmec{width:96px}.brand-copy{min-width:0}.sidebar{top:90px;height:calc(100vh - 90px)}
+@media(max-width:860px){.sidebar{height:auto;position:static}}
+@media(max-width:620px){.topbar{height:auto;min-height:90px}.topbar-inner{height:auto;min-height:90px;flex-wrap:wrap;gap:8px;padding:10px 14px}.brand{width:100%;gap:12px}.institutional-logos{gap:8px;padding-right:10px}.institutional-logos img{height:44px}.institutional-logos .logo-lea{width:64px}.institutional-logos .logo-pcmec{width:74px}.brand strong{font-size:14px}.brand small{font-size:10px}.top-actions{width:100%;justify-content:flex-end}.top-actions .api-status{font-size:11px}}
